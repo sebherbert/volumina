@@ -77,8 +77,10 @@ if _has_lazyflow:
         OutputFormat = InputSlot(value="hdf5")
 
         ConvertedImage = OutputSlot()  # Preprocessed image, BEFORE axis reordering
-        ImageToExport = OutputSlot()  # Preview of the pre-processed image that will be exported
-        ExportPath = OutputSlot()  # Location of the saved file after export is complete.
+        # Preview of the pre-processed image that will be exported
+        ImageToExport = OutputSlot()
+        # Location of the saved file after export is complete.
+        ExportPath = OutputSlot()
         FormatSelectionErrorMsg = OutputSlot()
 
         @classmethod
