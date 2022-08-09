@@ -101,7 +101,7 @@ if _has_lazyflow:
 # DataExportOptionsDlg
 # **************************************************************************
 class DataExportOptionsDlg(QDialog):
-    def __init__(self, parent, opDataExport):
+    def __init__(self, parent, opDataExport, defaultExportPath=None):
         """
         Constructor.
 
@@ -137,6 +137,12 @@ class DataExportOptionsDlg(QDialog):
         # See self.eventFilter()
         self.installEventFilter(self)
 
+        def pressedResetButton():
+            opDataExport.OutputFilenameFormat.setValue(defaultExportPath)
+            self.exportFileOptionsWidget.initExportOp(opDataExport)
+
+        self.resetButton.pressed.connect(pressedResetButton)
+
     def eventFilter(self, watched, event):
         # Ignore 'enter' keypress events, since the user may just be entering settings.
         # The user must manually click the 'OK' button to close the dialog.
@@ -157,7 +163,7 @@ class DataExportOptionsDlg(QDialog):
     # Input/Output Meta-info (display only)
     # **************************************************************************
     def _initMetaInfoWidgets(self):
-        ## Input/output meta-info display widgets
+        # Input/output meta-info display widgets
         opDataExport = self._opDataExport
         self.inputMetaInfoWidget.initSlot(opDataExport.Input)
         self.outputMetaInfoWidget.initSlot(opDataExport.ImageToExport)
@@ -165,6 +171,7 @@ class DataExportOptionsDlg(QDialog):
     # **************************************************************************
     # Subregion roi
     # **************************************************************************
+
     def _initSubregionWidget(self):
         opDataExport = self._opDataExport
         inputAxes = opDataExport.Input.meta.getAxisKeys()
